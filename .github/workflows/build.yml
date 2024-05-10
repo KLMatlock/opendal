@@ -134,8 +134,9 @@ jobs:
           CIBW_ENVIRONMENT_WINDOWS: 'PATH="$UserProfile\.cargo\bin;$PATH"'
         #   CIBW_BEFORE_BUILD: rustup show
           CIBW_BEFORE_BUILD_WINDOWS: >
-            Invoke-WebRequest -Uri https://win.rustup.rs -OutFile rustup-init.exe  
-            .\rustup-init.exe -y
+            $WebClient = New-Object System.Net.WebClient  
+            $WebClient.DownloadFile("https://win.rustup.rs/", "rustup-init.exe") 
+            Start-Process -FilePath "rustup-init.exe" -ArgumentList "-y" -Wait  
           CIBW_TEST_EXTRAS: "test"
           CIBW_TEST_COMMAND: "echo Wheel installed"
       - name: Archive production artifacts
