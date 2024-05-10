@@ -27,7 +27,7 @@ classifiers = [
 ]
 description = "Apache OpenDAL™ Python Binding"
 license = { text = "Apache-2.0" }
-name = "opendal"
+name = "opendal-min"
 readme = "README.md"
 # PyO3 doesn't support python 3.13 yet.
 # ref: https://github.com/apache/opendal/issues/4268
