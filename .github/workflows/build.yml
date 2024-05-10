@@ -23,10 +23,10 @@ jobs:
       - name: Test with Python 3.12
         run: |
           curl https://sh.rustup.rs -sSf | sh -s -- --default-toolchain=stable --profile=minimal -y
+          cd bindings/python
           python3 -m pip install maturin && maturin build --sdist
           export EGG=$(ls target/wheels/*.tar.gz)
           python3 -m pip install ${EGG}[test]
-          make test
       - name: Archive production artifacts
         uses: actions/upload-artifact@v2
         with:
@@ -52,7 +52,7 @@ jobs:
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.16.5
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: python -m cibuildwheel --output-dir wheelhouse bindings/python
         env:
           CIBW_BUILD: 'cp3${{ matrix.python-minor-version }}-${{ matrix.libc }}*'
           CIBW_ARCHS: 'aarch64'
@@ -89,7 +89,7 @@ jobs:
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.16.5
       - name: Build wheels
-        run: python -m cibuildwheel --output-dir wheelhouse
+        run: python -m cibuildwheel --output-dir wheelhouse bindings/python
         env:
           CIBW_BUILD: 'cp3${{ matrix.python-minor-version }}-*'
           # rust doesn't seem to be available for musl linux on i686
